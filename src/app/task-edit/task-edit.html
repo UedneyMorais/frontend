@@ -1,0 +1,74 @@
+<div class="edit-container">
+  <h2>Editar Tarefa</h2>
+
+  <!-- Indicador de carregamento inicial -->
+  <div *ngIf="isLoading" class="loading-message">
+    Carregando tarefa...
+  </div>
+
+  <!-- Mensagem de erro global ou ao carregar a tarefa -->
+  <div *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
+    <button *ngIf="!task && !isLoading" (click)="router.navigate(['/tasks'])" class="retry-button">Voltar à Lista</button>
+  </div>
+
+  <!-- Formulário de edição, visível apenas se a tarefa foi carregada e não há erro -->
+  <form *ngIf="task && !isLoading && !errorMessage" (ngSubmit)="onUpdate()" class="task-form">
+    <!-- Campo Título -->
+    <div class="form-group">
+      <label for="title">Título*</label>
+      <input
+        type="text"
+        id="title"
+        [(ngModel)]="task.title"
+        name="title"
+        required
+        class="form-control"
+      >
+    </div>
+
+    <!-- Campo Descrição -->
+    <div class="form-group">
+      <label for="description">Descrição</label>
+      <textarea
+        id="description"
+        [(ngModel)]="task.description"
+        name="description"
+        class="form-control"
+        rows="3"
+      ></textarea>
+    </div>
+
+    <!-- Checkbox Concluída -->
+    <div class="form-group">
+      <label class="checkbox-label">
+        <input
+          type="checkbox"
+          [(ngModel)]="task.completed"
+          name="completed"
+        >
+        Tarefa concluída
+      </label>
+    </div>
+
+    <!-- Botões -->
+    <div class="form-actions">
+      <button
+        type="submit"
+        class="btn btn-primary"
+        [disabled]="isSubmitting || !task.title.trim()"
+      >
+        <span *ngIf="!isSubmitting">Atualizar Tarefa</span>
+        <span *ngIf="isSubmitting">Atualizando...</span>
+      </button>
+
+      <button
+        type="button"
+        class="btn btn-secondary"
+        (click)="router.navigate(['/tasks'])"
+      >
+        Cancelar
+      </button>
+    </div>
+  </form>
+</div>

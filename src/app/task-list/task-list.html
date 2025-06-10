@@ -1,0 +1,48 @@
+<div class="container">
+  <h2>Lista de Tarefas</h2>
+  <div class="create-button"><a routerLink="/tasks/create" class="btn btn-primary">Criar Nova Tarefa</a></div>
+
+
+  <!-- Indicador de carregamento -->
+  <div *ngIf="isLoading" class="loading-message">
+    Carregando tarefas...
+  </div>
+
+  <!-- Mensagem de erro -->
+  <div *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
+    <button (click)="loadTasks()" class="retry-button">Tentar Novamente</button>
+  </div>
+
+  <!-- Lista de tarefas -->
+  <ul *ngIf="!isLoading && !errorMessage && tasks.length > 0" class="task-list">
+    <li *ngFor="let task of tasks" class="task-item">
+      <h3>{{ task.title }}</h3>
+      <p>{{ task.description }}</p>
+      <p class="task-status" [ngClass]="{'completed': task.completed, 'pending': !task.completed}">
+        {{ task.completed ? 'Concluída' : 'Pendente' }}
+      </p>
+      <div class="task-actions">
+        <!-- Botão de Editar -->
+        <button
+          class="btn edit-btn"
+          [routerLink]="['/tasks/edit', task.id]"
+        >
+          Editar
+        </button>
+        <!-- Botão de Remover (Exemplo) -->
+        <button
+          class="btn delete-btn"
+          (click)="deleteTask(task.id)"
+        >
+          Excluir
+        </button>
+      </div>
+    </li>
+  </ul>
+
+  <!-- Mensagem se não houver tarefas -->
+  <div *ngIf="!isLoading && !errorMessage && tasks.length === 0" class="no-tasks-message">
+    Nenhuma tarefa encontrada.
+  </div>
+</div>

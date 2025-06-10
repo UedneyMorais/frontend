@@ -1,0 +1,68 @@
+<div class="create-container">
+  <h2>Criar Nova Tarefa</h2>
+
+  <form (ngSubmit)="onSubmit()" class="task-form">
+    <!-- Mensagem de erro -->
+    <div *ngIf="errorMessage" class="error-message">
+      {{ errorMessage }}
+    </div>
+
+    <!-- Campo Título -->
+    <div class="form-group">
+      <label for="title">Título*</label>
+      <input
+        type="text"
+        id="title"
+        [(ngModel)]="newTask.title"
+        name="title"
+        required
+        class="form-control"
+        #titleInput
+      >
+    </div>
+
+    <!-- Campo Descrição -->
+    <div class="form-group">
+      <label for="description">Descrição</label>
+      <textarea
+        id="description"
+        [(ngModel)]="newTask.description"
+        name="description"
+        class="form-control"
+        rows="3"
+      ></textarea>
+    </div>
+
+    <!-- Checkbox Concluída -->
+    <div class="form-group">
+      <label class="checkbox-label">
+        <input
+          type="checkbox"
+          [(ngModel)]="newTask.completed"
+          name="completed"
+        >
+        Tarefa concluída
+      </label>
+    </div>
+
+    <!-- Botões -->
+    <div class="form-actions">
+      <button
+        type="submit"
+        class="btn btn-primary"
+        [disabled]="isSubmitting || !newTask.title?.trim()"
+      >
+        <span *ngIf="!isSubmitting">Criar Tarefa</span>
+        <span *ngIf="isSubmitting">Criando...</span>
+      </button>
+
+      <button
+        type="button"
+        class="btn btn-secondary"
+        (click)="router.navigate(['/tasks'])"
+      >
+        Cancelar
+      </button>
+    </div>
+  </form>
+</div>
